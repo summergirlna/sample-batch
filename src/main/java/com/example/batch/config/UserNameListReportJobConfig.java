@@ -6,6 +6,8 @@ import com.example.batch.report.UserNameListPdfGenerator;
 import com.example.batch.report.UserNameListReport;
 import com.example.batch.report.UserNameListReportFactory;
 import com.example.batch.report.UserNameListReportHtmlRenderer;
+import com.example.batch.sftp.SftpClient;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.job.Job;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
@@ -21,6 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Configuration
+@Slf4j
 public class UserNameListReportJobConfig {
 
     @Bean
@@ -40,7 +43,8 @@ public class UserNameListReportJobConfig {
             UserApiClient userApiClient,
             UserNameListReportFactory userNameListReportFactory,
             UserNameListReportHtmlRenderer userNameListReportHtmlRenderer,
-            UserNameListPdfGenerator userNameListPdfGenerator
+            UserNameListPdfGenerator userNameListPdfGenerator,
+            SftpClient sftpClient
     ) {
         return new StepBuilder("userNameListReportStep", jobRepository)
                 .tasklet((contribution, chunkContext) -> {
@@ -62,8 +66,11 @@ public class UserNameListReportJobConfig {
                     Path outputPath = Path.of("work/output/user-name-list-report.pdf");
                     Path pdfPath = userNameListPdfGenerator.generate(html, outputPath);
 
-                    System.out.println("users = " + userResponses);
-                    System.out.println("pdf = " + pdfPath.toAbsolutePath());
+                    sftpClient.upload(pdfPath);
+
+                    log.info("users = {}", userResponses);
+                    log.info("pdf = {}", pdfPath.toAbsolutePath());
+                    log.info("SFTP転送が完了しました。");
 
                     return RepeatStatus.FINISHED;
                 }, transactionManager)
