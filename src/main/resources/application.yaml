@@ -14,6 +14,16 @@ spring:
     username: sa
     password:
 
+backend:
+  base-url: ${BACKEND_BASE_URL:http://localhost:8080}
+
+sftp:
+  host: ${SFTP_HOST:localhost}
+  port: ${SFTP_PORT:2222}
+  username: ${SFTP_USERNAME:sample_user}
+  password: ${SFTP_PASSWORD:sample_password}
+  remote-directory: ${SFTP_REMOTE_DIRECTORY:/upload}
+
 logging:
   level:
     org.springframework.batch: INFO
