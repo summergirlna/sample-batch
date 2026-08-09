@@ -2,6 +2,8 @@ package com.example.batch.config;
 
 import com.example.batch.client.UserApiClient;
 import com.example.batch.client.response.UserResponse;
+import com.example.batch.message.UserNameListReportMessageReader;
+import com.example.batch.message.UserNameListReportRequestMessage;
 import com.example.batch.report.UserNameListPdfGenerator;
 import com.example.batch.report.UserNameListReport;
 import com.example.batch.report.UserNameListReportFactory;
@@ -21,6 +23,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Configuration
 @Slf4j
@@ -29,10 +32,10 @@ public class UserNameListReportJobConfig {
     @Bean
     public Job userNameListreportJob(
             JobRepository jobRepository,
-            Step helloWorldStep
+            Step userNameListReportStep
     ) {
         return new JobBuilder("userNameListReportJob", jobRepository)
-                .start(helloWorldStep)
+                .start(userNameListReportStep)
                 .build();
     }
 
@@ -44,20 +47,20 @@ public class UserNameListReportJobConfig {
             UserNameListReportFactory userNameListReportFactory,
             UserNameListReportHtmlRenderer userNameListReportHtmlRenderer,
             UserNameListPdfGenerator userNameListPdfGenerator,
-            SftpClient sftpClient
+            SftpClient sftpClient,
+            UserNameListReportMessageReader userNameListReportMessageReader
     ) {
         return new StepBuilder("userNameListReportStep", jobRepository)
                 .tasklet((contribution, chunkContext) -> {
-                    String idsParameter = chunkContext
-                            .getStepContext()
-                            .getJobParameters()
-                            .get("ids")
-                            .toString();
+                    Optional<UserNameListReportRequestMessage> requestMessage =
+                            userNameListReportMessageReader.receive();
 
-                    List<String> ids = Arrays.stream(idsParameter.split("_"))
-                            .map(String::trim)
-                            .filter(id -> !id.isEmpty())
-                            .toList();
+                    if (requestMessage.isEmpty()) {
+                        System.out.println("No report request message");
+                        return RepeatStatus.FINISHED;
+                    }
+
+                    List<String> ids = requestMessage.get().userIds();
 
                     List<UserResponse> userResponses = userApiClient.listByIds(ids);
                     UserNameListReport report = userNameListReportFactory.create(userResponses);
