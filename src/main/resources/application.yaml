@@ -14,6 +14,12 @@ spring:
     username: sa
     password:
 
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:sample_user}
+    password: ${RABBITMQ_PASSWORD:sample_password}
+
 backend:
   base-url: ${BACKEND_BASE_URL:http://localhost:8080}
 
@@ -23,6 +29,9 @@ sftp:
   username: ${SFTP_USERNAME:sample_user}
   password: ${SFTP_PASSWORD:sample_password}
   remote-directory: ${SFTP_REMOTE_DIRECTORY:/upload}
+
+report:
+  queue-name: ${REPORT_QUEUE_NAME:user-name-list-report.request}
 
 logging:
   level:
