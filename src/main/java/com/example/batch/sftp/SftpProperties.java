@@ -8,6 +8,7 @@ public record SftpProperties(
         int port,
         String username,
         String password,
-        String remoteDirectory
+        String remoteDirectory,
+        String knownHostsPath
 ) {
 }
