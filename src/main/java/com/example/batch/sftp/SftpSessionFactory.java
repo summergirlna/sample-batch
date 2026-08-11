@@ -21,6 +21,8 @@ public class SftpSessionFactory {
         try {
             sshClient.addHostKeyVerifier(hostKeyVerifier);
             sshClient.connect(sftpProperties.host(), sftpProperties.port());
+
+            // todo 外部注入にする
             sshClient.authPassword(sftpProperties.username(), sftpProperties.password());
 
             SFTPClient sftpClient = sshClient.newSFTPClient();
