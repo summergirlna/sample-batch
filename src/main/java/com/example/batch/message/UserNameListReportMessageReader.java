@@ -1,6 +1,5 @@
 package com.example.batch.message;
 
-import com.example.batch.report.UserNameListReport;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.core.ParameterizedTypeReference;
