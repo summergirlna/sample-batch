@@ -20,8 +20,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,12 +67,13 @@ public class UserNameListReportJobConfig {
                     String html = userNameListReportHtmlRenderer.render(report);
 
                     Path outputPath = Path.of("work/output/user-name-list-report.pdf");
-                    Path pdfPath = userNameListPdfGenerator.generate(html, outputPath);
+                    Files.createDirectories(outputPath.getParent());
+                    Files.write(outputPath, userNameListPdfGenerator.generate(html));
 
-                    sftpClient.upload(pdfPath);
+                    sftpClient.upload(outputPath);
 
                     log.info("users = {}", userResponses);
-                    log.info("pdf = {}", pdfPath.toAbsolutePath());
+                    log.info("pdf = {}", outputPath.toAbsolutePath());
                     log.info("SFTP転送が完了しました。");
 
                     return RepeatStatus.FINISHED;
