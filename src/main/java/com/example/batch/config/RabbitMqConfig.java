@@ -10,13 +10,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMqConfig {
 
-    @Bean
-    public Queue userNameListReportQueue(ReportProperties reportProperties) {
-        return new Queue(reportProperties.queueName(), true);
-    }
+  @Bean
+  public Queue userNameListReportQueue(ReportProperties reportProperties) {
+    return new Queue(reportProperties.queueName(), true);
+  }
 
-    @Bean
-    public MessageConverter messageConverter() {
-        return new JacksonJsonMessageConverter();
-    }
+  @Bean
+  public MessageConverter messageConverter() {
+    return new JacksonJsonMessageConverter();
+  }
 }

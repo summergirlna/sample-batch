@@ -1,19 +1,18 @@
 package com.example.batch.report;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.nio.charset.StandardCharsets;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 class UserNameListPdfGeneratorTest {
 
-    @Test
-    void generate() {
-        UserNameListPdfGenerator userNameListPdfGenerator =
-                new UserNameListPdfGenerator();
+  @Test
+  void generate() {
+    UserNameListPdfGenerator userNameListPdfGenerator = new UserNameListPdfGenerator();
 
-        String html = """
+    String html =
+        """
                 <!DOCTYPE html>
                 <html lang="ja">
                 <head>
@@ -40,16 +39,15 @@ class UserNameListPdfGeneratorTest {
                 </html>
                 """;
 
-        byte[] actual = userNameListPdfGenerator.generate(html);
+    byte[] actual = userNameListPdfGenerator.generate(html);
 
-        assertTrue(actual.length > 0);
-        assertPdfData(actual);
+    assertTrue(actual.length > 0);
+    assertPdfData(actual);
+  }
 
-    }
+  private void assertPdfData(byte[] actual) {
+    String header = new String(actual, 0, 4, StandardCharsets.US_ASCII);
 
-    private void assertPdfData(byte[] actual) {
-        String header = new String(actual, 0, 4, StandardCharsets.US_ASCII);
-
-        assertEquals("%PDF", header);
-    }
+    assertEquals("%PDF", header);
+  }
 }

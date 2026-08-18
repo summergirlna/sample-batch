@@ -4,11 +4,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "sftp")
 public record SftpProperties(
-        String host,
-        int port,
-        String username,
-        String password,
-        String remoteDirectory,
-        String knownHostsPath
-) {
-}
+    String host,
+    int port,
+    String username,
+    String password,
+    String remoteDirectory,
+    String knownHostsPath) {}

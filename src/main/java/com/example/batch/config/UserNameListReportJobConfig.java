@@ -13,24 +13,20 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Configuration
 public class UserNameListReportJobConfig {
 
-    @Bean
-    public Job userNameListreportJob(
-            JobRepository jobRepository,
-            Step userNameListReportStep
-    ) {
-        return new JobBuilder("userNameListReportJob", jobRepository)
-                .start(userNameListReportStep)
-                .build();
-    }
+  @Bean
+  public Job userNameListreportJob(JobRepository jobRepository, Step userNameListReportStep) {
+    return new JobBuilder("userNameListReportJob", jobRepository)
+        .start(userNameListReportStep)
+        .build();
+  }
 
-    @Bean
-    public Step userNameListReportStep(
-            JobRepository jobRepository,
-            PlatformTransactionManager transactionManager,
-            UserNameListReportTasklet userNameListReportTasklet
-    ) {
-        return new StepBuilder("userNameListReportStep", jobRepository)
-                .tasklet(userNameListReportTasklet, transactionManager)
-                .build();
-    }
+  @Bean
+  public Step userNameListReportStep(
+      JobRepository jobRepository,
+      PlatformTransactionManager transactionManager,
+      UserNameListReportTasklet userNameListReportTasklet) {
+    return new StepBuilder("userNameListReportStep", jobRepository)
+        .tasklet(userNameListReportTasklet, transactionManager)
+        .build();
+  }
 }

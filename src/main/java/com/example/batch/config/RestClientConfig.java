@@ -8,12 +8,8 @@ import org.springframework.web.client.RestClient;
 @Configuration
 public class RestClientConfig {
 
-    @Bean
-    public RestClient restClient(
-            @Value("${backend.base-url}") String backendBaseUrl
-    ) {
-        return RestClient.builder()
-                .baseUrl(backendBaseUrl)
-                .build();
-    }
+  @Bean
+  public RestClient restClient(@Value("${backend.base-url}") String backendBaseUrl) {
+    return RestClient.builder().baseUrl(backendBaseUrl).build();
+  }
 }

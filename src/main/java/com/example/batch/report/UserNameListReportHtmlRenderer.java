@@ -9,16 +9,16 @@ import org.thymeleaf.context.Context;
 @RequiredArgsConstructor
 public class UserNameListReportHtmlRenderer {
 
-    private static final String TEMPLATE_NAME = "user-name-list-report";
+  private static final String TEMPLATE_NAME = "user-name-list-report";
 
-    private final TemplateEngine templateEngine;
+  private final TemplateEngine templateEngine;
 
-    public String render(UserNameListReport report) {
-        Context context = new Context();
-        context.setVariable("title", report.title());
-        context.setVariable("createdAt", report.createdAt());
-        context.setVariable("rows", report.rows());
+  public String render(UserNameListReport report) {
+    Context context = new Context();
+    context.setVariable("title", report.title());
+    context.setVariable("createdAt", report.createdAt());
+    context.setVariable("rows", report.rows());
 
-        return templateEngine.process(TEMPLATE_NAME, context);
-    }
+    return templateEngine.process(TEMPLATE_NAME, context);
+  }
 }

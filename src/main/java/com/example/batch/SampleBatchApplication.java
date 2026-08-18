@@ -9,10 +9,10 @@ import org.springframework.context.ConfigurableApplicationContext;
 @ConfigurationPropertiesScan
 public class SampleBatchApplication {
 
-    public static void main(String[] args) {
-        ConfigurableApplicationContext context = SpringApplication.run(SampleBatchApplication.class, args);
-        int exitCode = SpringApplication.exit(context);
-        System.exit(exitCode);
-    }
-
+  public static void main(String[] args) {
+    ConfigurableApplicationContext context =
+        SpringApplication.run(SampleBatchApplication.class, args);
+    int exitCode = SpringApplication.exit(context);
+    System.exit(exitCode);
+  }
 }
