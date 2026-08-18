@@ -9,6 +9,7 @@ import com.example.batch.client.response.UserResponse;
 import com.example.batch.message.UserNameListReportMessageReader;
 import com.example.batch.message.UserNameListReportRequestMessage;
 import com.example.batch.sftp.SftpClient;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
@@ -58,14 +59,14 @@ class UserNameListReportTaskletTest {
             List.of(
                 new UserNameListReportRow("user-1", "山田太郎"),
                 new UserNameListReportRow("user-2", "佐藤花子")));
-    byte[] pdf = "%PDF".getBytes();
+    byte[] pdf = "%PDF".getBytes(StandardCharsets.UTF_8);
     Path outputPath = Path.of("work/output/user-name-list-report.pdf");
 
     when(userNameListReportMessageReader.receive()).thenReturn(Optional.of(requestMessage));
     when(userApiClient.listByIds(List.of("user-1", "user-2"))).thenReturn(userResponses);
     when(userNameListReportFactory.create(userResponses)).thenReturn(report);
     when(userNameListReportHtmlRenderer.render(report)).thenReturn("<html>report</html>");
-    when(userNameListPdfGenerator.generate("<html>report</html>")).thenReturn("%PDF".getBytes());
+    when(userNameListPdfGenerator.generate("<html>report</html>")).thenReturn(pdf);
     when(userNameListReportFileWriter.write(pdf)).thenReturn(outputPath);
 
     RepeatStatus actual = userNameListReportTasklet.execute(null, null);

@@ -1,5 +1,6 @@
 package com.example.batch.report;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,7 @@ public class UserNameListReportFileWriter {
 
       return OUTPUT_PATH;
 
-    } catch (Exception e) {
+    } catch (IOException e) {
       throw new IllegalStateException("ユーザ名一覧PDFファイルの保存に失敗しました。outputPath=" + OUTPUT_PATH, e);
     }
   }

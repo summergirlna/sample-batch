@@ -27,7 +27,7 @@ public class SftpSessionFactory {
       SFTPClient sftpClient = sshClient.newSFTPClient();
       return new SftpSession(sshClient, sftpClient);
 
-    } catch (IOException | RuntimeException e) {
+    } catch (IOException e) {
       sshClient.close();
       throw e;
     }

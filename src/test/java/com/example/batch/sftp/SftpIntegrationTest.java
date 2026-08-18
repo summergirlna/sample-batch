@@ -15,7 +15,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-public class SftpIntegrationTest {
+class SftpIntegrationTest {
 
   private static final String USERNAME = "test-user";
   private static final String PASSWORD = "test-password";

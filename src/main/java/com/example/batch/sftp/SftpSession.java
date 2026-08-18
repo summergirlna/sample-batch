@@ -17,10 +17,10 @@ public class SftpSession implements AutoCloseable {
 
   @Override
   public void close() throws IOException {
-    try {
-      sftpClient.close();
-    } finally {
-      sshClient.close();
+    try (SSHClient ignoredSshClient = sshClient;
+        SFTPClient ignoredSftpClient = sftpClient) {
+      // Resources are closed automatically in reverse order:
+      // SFTPClient first, then SSHClient.
     }
   }
 }

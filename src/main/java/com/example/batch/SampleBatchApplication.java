@@ -10,9 +10,13 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class SampleBatchApplication {
 
   public static void main(String[] args) {
-    ConfigurableApplicationContext context =
-        SpringApplication.run(SampleBatchApplication.class, args);
-    int exitCode = SpringApplication.exit(context);
+    int exitCode;
+
+    try (ConfigurableApplicationContext context =
+        SpringApplication.run(SampleBatchApplication.class, args)) {
+      exitCode = SpringApplication.exit(context);
+    }
+
     System.exit(exitCode);
   }
 }

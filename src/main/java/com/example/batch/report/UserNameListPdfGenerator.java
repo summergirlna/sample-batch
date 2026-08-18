@@ -4,6 +4,7 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -27,12 +28,12 @@ public class UserNameListPdfGenerator {
         return outputStream.toByteArray();
       }
 
-    } catch (Exception e) {
+    } catch (IOException e) {
       throw new IllegalStateException("ユーザ名一覧PDFの生成に失敗しました。", e);
     }
   }
 
-  private Path copyFontToTemporaryFile() throws Exception {
+  private Path copyFontToTemporaryFile() throws IOException {
     ClassPathResource fontResource = new ClassPathResource("fonts/NotoSansJP-Regular.ttf");
 
     Path fontPath = Files.createTempFile("NotoSansJP-Regular", ".ttf");

@@ -34,33 +34,28 @@ public class UserNameListReportTasklet implements Tasklet {
   @Override
   public @Nullable RepeatStatus execute(
       @NonNull StepContribution contribution, @NonNull ChunkContext chunkContext) {
-    try {
-      Optional<UserNameListReportRequestMessage> requestMessage =
-          userNameListReportMessageReader.receive();
+    Optional<UserNameListReportRequestMessage> requestMessage =
+        userNameListReportMessageReader.receive();
 
-      if (requestMessage.isEmpty()) {
-        log.info("No report request message");
-        return RepeatStatus.FINISHED;
-      }
-
-      List<String> ids = requestMessage.get().userIds();
-
-      List<UserResponse> userResponses = userApiClient.listByIds(ids);
-      UserNameListReport report = userNameListReportFactory.create(userResponses);
-      String html = userNameListReportHtmlRenderer.render(report);
-      byte[] pdf = userNameListPdfGenerator.generate(html);
-      Path outputPath = userNameListReportFileWriter.write(pdf);
-
-      sftpClient.upload(outputPath);
-
-      log.info("users = {}", userResponses);
-      log.info("pdf = {}", outputPath.toAbsolutePath());
-      log.info("SFTP転送が完了しました。");
-
+    if (requestMessage.isEmpty()) {
+      log.info("No report request message");
       return RepeatStatus.FINISHED;
-
-    } catch (Exception e) {
-      throw new IllegalStateException("ユーザ名一覧レポート処理に失敗しました。");
     }
+
+    List<String> ids = requestMessage.get().userIds();
+
+    List<UserResponse> userResponses = userApiClient.listByIds(ids);
+    UserNameListReport report = userNameListReportFactory.create(userResponses);
+    String html = userNameListReportHtmlRenderer.render(report);
+    byte[] pdf = userNameListPdfGenerator.generate(html);
+    Path outputPath = userNameListReportFileWriter.write(pdf);
+
+    sftpClient.upload(outputPath);
+
+    log.info("users = {}", userResponses);
+    log.info("pdf = {}", outputPath.toAbsolutePath());
+    log.info("SFTP転送が完了しました。");
+
+    return RepeatStatus.FINISHED;
   }
 }
