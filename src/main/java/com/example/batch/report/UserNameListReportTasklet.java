@@ -1,7 +1,7 @@
 package com.example.batch.report;
 
-import com.example.batch.client.UserApiClient;
-import com.example.batch.client.response.UserResponse;
+import com.example.backendclient.user.UserApiClient;
+import com.example.backendclient.user.response.UserResponse;
 import com.example.batch.message.UserNameListReportMessageReader;
 import com.example.batch.message.UserNameListReportRequestMessage;
 import com.example.batch.sftp.SftpClient;

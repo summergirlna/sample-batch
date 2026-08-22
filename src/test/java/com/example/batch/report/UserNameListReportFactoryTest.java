@@ -2,7 +2,7 @@ package com.example.batch.report;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.example.batch.client.response.UserResponse;
+import com.example.backendclient.user.response.UserResponse;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneId;

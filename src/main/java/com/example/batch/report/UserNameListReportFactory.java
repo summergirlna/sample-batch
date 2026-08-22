@@ -1,6 +1,6 @@
 package com.example.batch.report;
 
-import com.example.batch.client.response.UserResponse;
+import com.example.backendclient.user.response.UserResponse;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
