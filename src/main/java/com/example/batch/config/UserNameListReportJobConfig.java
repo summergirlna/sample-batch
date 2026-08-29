@@ -1,5 +1,6 @@
 package com.example.batch.config;
 
+import com.example.batch.message.UserNameListReportRequestTasklet;
 import com.example.batch.report.*;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.EnableJdbcJobRepository;
@@ -31,6 +32,24 @@ public class UserNameListReportJobConfig {
       UserNameListReportTasklet userNameListReportTasklet) {
     return new StepBuilder("userNameListReportStep", jobRepository)
         .tasklet(userNameListReportTasklet, transactionManager)
+        .build();
+  }
+
+  @Bean
+  public Job UserNameListReportRequestJob(
+      JobRepository jobRepository, Step userNameListReportRequestStep) {
+    return new JobBuilder("userNameListReportRequestJob", jobRepository)
+        .start(userNameListReportRequestStep)
+        .build();
+  }
+
+  @Bean
+  public Step userNameListReportRequestStep(
+      JobRepository jobRepository,
+      PlatformTransactionManager transactionManager,
+      UserNameListReportRequestTasklet userNameListReportRequestTasklet) {
+    return new StepBuilder("userNameListReportRequestStep", jobRepository)
+        .tasklet(userNameListReportRequestTasklet, transactionManager)
         .build();
   }
 }
