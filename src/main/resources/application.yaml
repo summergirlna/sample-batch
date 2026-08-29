@@ -6,13 +6,17 @@ spring:
     job:
       enabled: true
     jdbc:
-      initialize-schema: always
+      initialize-schema: never
+
+  sql:
+    init:
+      mode: never
 
   datasource:
-    url: jdbc:h2:mem:sample_batch
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/sample_batch}
+    driver-class-name: org.postgresql.Driver
+    username: ${SPRING_DATASOURCE_USERNAME:sample_user}
+    password: ${SPRING_DATASOURCE_PASSWORD:sample_password}
 
   rabbitmq:
     host: ${RABBITMQ_HOST:localhost}
