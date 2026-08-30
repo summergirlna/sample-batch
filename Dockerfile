@@ -32,6 +32,13 @@ FROM eclipse-temurin:25-jre
 
 WORKDIR /app
 
-COPY --from=build /workspace/sample-batch/target/*.jar app.jar
+RUN groupadd --system app \
+    && useradd --system --gid app app \
+    && mkdir -p /app/work/output \
+    && chown -R app:app /app \
+
+COPY --from=build --chown=app:app /workspace/sample-batch/target/*.jar app.jar
+
+USER app
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
