@@ -36,6 +36,7 @@ RUN groupadd --system app \
     && useradd --system --gid app app \
     && mkdir -p /app/work/output \
     && chown -R app:app /app \
+    && rm -f /usr/bin/pebble
 
 COPY --from=build --chown=app:app /workspace/sample-batch/target/*.jar app.jar
 
